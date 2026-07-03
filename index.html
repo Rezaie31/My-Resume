@@ -1,0 +1,739 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Hani | Front-End Developer</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&family=Vazirmatn:wght@300;400;600;700&display=swap" rel="stylesheet" />
+    <style>
+        /* ===== RESET & BASE ===== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        html {
+            scroll-behavior: smooth;
+        }
+        body {
+            font-family: 'Inter', 'Vazirmatn', sans-serif;
+            background: #f1f5f9;
+            color: #0f172a;
+            transition: background 0.4s, color 0.4s;
+            overflow-x: hidden;
+            text-align: center;
+        }
+        body.dark {
+            background: #0a0f1f;
+            color: #e5e7eb;
+        }
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+        ::selection {
+            background: #6366f1;
+            color: #fff;
+        }
+
+        /* ===== CANVAS ===== */
+        #trail-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            pointer-events: none;
+            z-index: 9998;
+        }
+
+        /* ===== SCROLLBAR ===== */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #e2e8f0;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #6366f1;
+            border-radius: 10px;
+        }
+        body.dark ::-webkit-scrollbar-track {
+            background: #0a0f1f;
+        }
+        body.dark ::-webkit-scrollbar-thumb {
+            background: #6366f1;
+        }
+
+        /* ===== VARIABLES ===== */
+        :root {
+            --bg: #f1f5f9;
+            --card: #ffffff;
+            --text: #0f172a;
+            --muted: #475569;
+            --accent: #6366f1;
+            --accent2: #22d3ee;
+            --shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
+            --radius: 20px;
+            --transition: 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+        body.dark {
+            --bg: #0a0f1f;
+            --card: #111a2e;
+            --text: #e5e7eb;
+            --muted: #94a3b8;
+            --shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+        }
+/* ===== NAV ===== */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 16px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(241, 245, 249, 0.7);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+            z-index: 999;
+            transition: background 0.4s;
+        }
+        body.dark nav {
+            background: rgba(10, 15, 31, 0.7);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        nav .logo {
+            font-size: 22px;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--accent), var(--accent2));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: -0.5px;
+        }
+        nav .nav-links {
+            display: flex;
+            gap: 28px;
+            align-items: center;
+        }
+        nav .nav-links a {
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--muted);
+            transition: color 0.3s;
+            position: relative;
+        }
+        nav .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--accent);
+            transition: width 0.3s;
+        }
+        nav .nav-links a:hover {
+            color: var(--text);
+        }
+        nav .nav-links a:hover::after {
+            width: 100%;
+        }
+        nav .theme-toggle,
+        nav .lang-toggle {
+            border: none;
+            padding: 8px 14px;
+            border-radius: 30px;
+            cursor: pointer;
+            background: var(--accent);
+            color: #fff;
+            font-size: 14px;
+            font-weight: 600;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        nav .theme-toggle:hover,
+        nav .lang-toggle:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 20px rgba(99, 102, 241, 0.4);
+        }
+
+        /* ===== CONTAINER ===== */
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 120px 24px 60px;
+        }
+/* ===== PROJECTS ===== */
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 24px;
+        }
+        .project-card {
+            background: var(--card);
+            padding: 24px 28px;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            transition: var(--transition);
+        }
+        .project-card:hover {
+            transform: translateY(-8px);
+            border-color: var(--accent);
+            box-shadow: 0 24px 48px rgba(99, 102, 241, 0.15);
+        }
+        .project-card h3 {
+            font-size: 20px;
+            margin-bottom: 8px;
+        }
+        .project-card p {
+            color: var(--muted);
+            font-size: 14px;
+            margin-bottom: 16px;
+        }
+        .project-card a {
+            color: var(--accent2);
+            font-weight: 600;
+            transition: 0.3s;
+        }
+        .project-card a:hover {
+            color: var(--accent);
+        }
+
+        /* ===== CONTACT ===== */
+        .contact-info {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        .contact-info p {
+            font-size: 16px;
+        }
+        .contact-info a {
+            color: var(--accent2);
+            font-weight: 500;
+            transition: 0.3s;
+        }
+        .contact-info a:hover {
+            color: var(--accent);
+        }
+
+        /* ===== FOOTER ===== */
+        footer {
+            text-align: center;
+            padding: 48px 20px 32px;
+            color: var(--muted);
+            border-top: 1px solid rgba(255, 255, 255, 0.04);
+            margin-top: 80px;
+            font-size: 14px;
+        }
+
+        /* ===== SCROLL ANIMATION ===== */
+        .fade {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+        .fade.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 768px) {
+            nav {
+                padding: 12px 20px;
+                flex-wrap: wrap;
+                gap: 10px;
+            }
+            nav .nav-links {
+                gap: 14px;
+                flex-wrap: wrap;
+            }
+            .hero h1 {
+                font-size: 36px;
+            }
+            .hero p {
+                font-size: 16px;
+            }
+            .container {
+                padding: 100px 16px 40px;
+            }
+            .projects-grid {
+                grid-template-columns: 1fr;
+            }
+            .card {
+                padding: 20px;
+            }
+            #trail-canvas {
+                display: none;
+            }
+        }
+        @media (max-width: 480px) {
+            .hero h1 {
+                font-size: 28px;
+            }
+            .btn {
+                padding: 10px 20px;
+                font-size: 13px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ===== CANVAS ===== -->
+    <canvas id="trail-canvas"></canvas>
+
+    <!-- ===== NAV ===== -->
+    <nav>
+        <div class="logo">Hani.dev</div>
+        <div class="nav-links">
+            <a href="#about" data-key="nav.about">About</a>
+            <a href="#skills" data-key="nav.skills">Skills</a>
+            <a href="#projects" data-key="nav.projects">Projects</a>
+            <a href="#contact" data-key="nav.contact">Contact</a>
+            <button class="lang-toggle" onclick="toggleLang()">🇮🇷 FA</button>
+            <button class="theme-toggle" onclick="toggleTheme()">🌙</button>
+        </div>
+    </nav>
+
+    <!-- ===== CONTAINER ===== -->
+    <div class="container">
+/* ===== HERO ===== */
+        .hero {
+            text-align: center;
+            padding: 80px 20px 60px;
+            position: relative;
+        }
+        .hero .badge {
+            display: inline-block;
+            padding: 6px 18px;
+            border-radius: 30px;
+            background: rgba(99, 102, 241, 0.15);
+            border: 1px solid rgba(99, 102, 241, 0.3);
+            font-size: 13px;
+            margin-bottom: 20px;
+        }
+        .hero h1 {
+            font-size: 64px;
+            font-weight: 800;
+            line-height: 1.1;
+            background: linear-gradient(135deg, var(--accent), var(--accent2), #a78bfa);
+            background-size: 300% 300%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: gradientShift 6s ease infinite;
+        }
+        @keyframes gradientShift {
+            0%,
+            100% {
+                background-position: 0% 50%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
+        }
+        .hero p {
+            font-size: 20px;
+            color: var(--muted);
+            margin-top: 16px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .hero .btn-group {
+            margin-top: 32px;
+            display: flex;
+            gap: 16px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        .btn {
+            display: inline-block;
+            padding: 14px 32px;
+            border-radius: 50px;
+            font-weight: 600;
+            transition: all 0.3s;
+            border: none;
+            cursor: pointer;
+            font-size: 15px;
+        }
+        .btn-primary {
+            background: linear-gradient(135deg, var(--accent), var(--accent2));
+            color: #fff;
+            box-shadow: 0 8px 24px rgba(99, 102, 241, 0.3);
+        }
+        .btn-primary:hover {
+            transform: translateY(-4px) scale(1.02);
+            box-shadow: 0 12px 32px rgba(99, 102, 241, 0.5);
+        }
+        .btn-outline {
+            background: transparent;
+            border: 2px solid var(--accent);
+            color: var(--text);
+        }
+        .btn-outline:hover {
+            background: var(--accent);
+            color: #fff;
+            transform: translateY(-4px);
+        }
+
+        /* ===== SECTION ===== */
+        section {
+            margin-top: 100px;
+        }
+        .section-title {
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 24px;
+            position: relative;
+            display: inline-block;
+        }
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -6px;
+            left: 0;
+            width: 50px;
+            height: 4px;
+            background: linear-gradient(90deg, var(--accent), var(--accent2));
+            border-radius: 4px;
+        }
+
+        /* ===== CARD ===== */
+        .card {
+            background: var(--card);
+            padding: 28px 32px;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            transition: var(--transition);
+        }
+        .card:hover {
+            transform: translateY(-6px);
+            border-color: rgba(99, 102, 241, 0.2);
+        }
+
+        /* ===== SKILLS ===== */
+        .skills-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            justify-content: center;
+        }
+        .skill-tag {
+            padding: 10px 20px;
+            border-radius: 50px;
+            background: rgba(99, 102, 241, 0.1);
+            border: 1px solid rgba(99, 102, 241, 0.2);
+            font-size: 14px;
+            font-weight: 500;
+            transition: 0.3s;
+        }
+        .skill-tag:hover {
+            background: var(--accent);
+            color: #fff;
+            transform: scale(1.05);
+        }
+<!-- HERO -->
+        <section class="hero fade">
+            <div class="badge" data-key="hero.badge">🚀 Open to Opportunities</div>
+            <h1 data-key="hero.title">Front-End Developer</h1>
+            <p data-key="hero.desc">Building fast, responsive and modern web applications</p>
+            <div class="btn-group">
+                <a href="#projects" class="btn btn-primary" data-key="hero.btn1">View Projects</a>
+                <a href="#" class="btn btn-outline" data-key="hero.btn2">Download CV</a>
+            </div>
+        </section>
+
+        <!-- ABOUT -->
+        <section id="about" class="fade">
+            <h2 class="section-title" data-key="about.title">About Me</h2>
+            <div class="card">
+                <p data-key="about.text">Computer Engineering student focused on Front-End development. I build real-world UI projects with clean code and responsive design.</p>
+            </div>
+        </section>
+
+        <!-- SKILLS -->
+        <section id="skills" class="fade">
+            <h2 class="section-title" data-key="skills.title">Skills</h2>
+            <div class="card">
+                <div class="skills-grid">
+                    <span class="skill-tag">HTML5</span>
+                    <span class="skill-tag">CSS3</span>
+                    <span class="skill-tag">JavaScript</span>
+                    <span class="skill-tag">Python</span>
+                    <span class="skill-tag">Responsive Design</span>
+                    <span class="skill-tag">Git & GitHub</span>
+                    <span class="skill-tag">Tailwind CSS</span>
+                    <span class="skill-tag">React (Learning)</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- PROJECTS -->
+        <section id="projects" class="fade">
+            <h2 class="section-title" data-key="projects.title">Projects</h2>
+            <div class="projects-grid">
+                <div class="project-card">
+                    <h3 data-key="projects.p1_title">🌤 Weather App</h3>
+                    <p data-key="projects.p1_desc">Real-time weather data from API</p>
+                    <a href="#" data-key="projects.link">View on GitHub</a>
+                </div>
+                <div class="project-card">
+                    <h3 data-key="projects.p2_title">✅ Todo Manager</h3>
+                    <p data-key="projects.p2_desc">Task management with localStorage</p>
+                    <a href="#" data-key="projects.link">View on GitHub</a>
+                </div>
+                <div class="project-card">
+                    <h3 data-key="projects.p3_title">🧮 Scientific Calculator</h3>
+                    <p data-key="projects.p3_desc">Advanced calculator with history</p>
+                    <a href="#" data-key="projects.link">View on GitHub</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- CONTACT -->
+        <section id="contact" class="fade">
+            <h2 class="section-title" data-key="contact.title">Contact</h2>
+            <div class="card">
+                <div class="contact-info">
+                    <p>📧 <a href="mailto:yourmail@gmail.com">yourmail@gmail.com</a></p>
+                    <p>🐙 <a href="https://github.com/yourname" target="_blank">github.com/yourname</a></p>
+                </div>
+            </div>
+        </section>
+
+        <!-- FOOTER -->
+        <footer>
+            <span data-key="footer.text">© 2026 Hani — All rights reserved</span>
+        </footer>
+
+    </div>
+<script>
+        // ==============================================
+        //  ترجمه کامل
+        // ==============================================
+        const translations = {
+            en: {
+                'nav.about': 'About',
+                'nav.skills': 'Skills',
+                'nav.projects': 'Projects',
+                'nav.contact': 'Contact',
+                'hero.badge': '🚀 Open to Opportunities',
+                'hero.title': 'Front-End Developer',
+                'hero.desc': 'Building fast, responsive and modern web applications',
+                'hero.btn1': 'View Projects',
+                'hero.btn2': 'Download CV',
+                'about.title': 'About Me',
+                'about.text': 'Computer Engineering student focused on Front-End development. I build real-world UI projects with clean code and responsive design.',
+                'skills.title': 'Skills',
+                'projects.title': 'Projects',
+                'projects.p1_title': '🌤 Weather App',
+                'projects.p1_desc': 'Real-time weather data from API',
+                'projects.p2_title': '✅ Todo Manager',
+                'projects.p2_desc': 'Task management with localStorage',
+                'projects.p3_title': '🧮 Scientific Calculator',
+                'projects.p3_desc': 'Advanced calculator with history',
+                'projects.link': 'View on GitHub',
+                'contact.title': 'Contact Me',
+                'footer.text': '© 2026 Hani — All rights reserved'
+            },
+            fa: {
+                'nav.about': 'درباره من',
+                'nav.skills': 'مهارت‌ها',
+                'nav.projects': 'پروژه‌ها',
+                'nav.contact': 'تماس با من',
+                'hero.badge': '🚀 آماده برای همکاری',
+                'hero.title': 'توسعه‌دهنده فرانت‌اند',
+                'hero.desc': 'طراحی تجربه‌های کاربری مدرن، سریع و واکنش‌گرا',
+                'hero.btn1': 'مشاهده پروژه‌ها',
+                'hero.btn2': 'دانلود رزومه',
+                'about.title': 'درباره من',
+                'about.text': 'دانشجوی مهندسی کامپیوتر با تمرکز بر توسعه‌ی فرانت‌اند. پروژه‌های واقعی با کد تمیز و طراحی واکنش‌گرا می‌سازم.',
+                'skills.title': 'مهارت‌ها',
+                'projects.title': 'پروژه‌ها',
+                'projects.p1_title': '🌤 برنامه آب و هوا',
+                'projects.p1_desc': 'دریافت لحظه‌ای دما و وضعیت هوا از API',
+                'projects.p2_title': '✅ مدیریت وظایف',
+                'projects.p2_desc': 'مدیریت وظایف با ذخیره‌سازی محلی',
+                'projects.p3_title': '🧮 ماشین حساب علمی',
+                'projects.p3_desc': 'ماشین حساب با تاریخچه و عملیات پیشرفته',
+                'projects.link': 'مشاهده در گیت‌هاب',
+                'contact.title': 'تماس با من',
+                'footer.text': '© ۲۰۲۶ هانی — تمامی حقوق محفوظ است'
+            }
+        };
+
+        // ==============================================
+        //  وضعیت اولیه
+        // ==============================================
+        let currentLang = 'en';
+
+        // ==============================================
+        //  توابع تغییر زبان
+        // ==============================================
+        function toggleLang() {
+            const btn = document.querySelector('.lang-toggle');
+            const html = document.documentElement;
+
+            if (currentLang === 'en') {
+                currentLang = 'fa';
+                btn.textContent = '🇬🇧 EN';
+                html.lang = 'fa';
+                html.dir = 'rtl';
+                document.body.style.textAlign = 'center';
+            } else {
+                currentLang = 'en';
+                btn.textContent = '🇮🇷 FA';
+                html.lang = 'en';
+                html.dir = 'ltr';
+                document.body.style.textAlign = 'center';
+            }
+            translatePage(currentLang);
+        }
+function translatePage(lang) {
+            const elements = document.querySelectorAll('[data-key]');
+            elements.forEach(el => {
+                const key = el.getAttribute('data-key');
+                if (translations[lang] && translations[lang][key]) {
+                    el.textContent = translations[lang][key];
+                }
+            });
+        }
+
+        // ==============================================
+        //  تغییر تم
+        // ==============================================
+        function toggleTheme() {
+            document.body.classList.toggle('dark');
+            const btn = document.querySelector('.theme-toggle');
+            btn.textContent = document.body.classList.contains('dark') ? '☀️' : '🌙';
+        }
+
+        // ==============================================
+        //  افکت نور (بدون تغییر)
+        // ==============================================
+        const canvas = document.getElementById('trail-canvas');
+        const ctx = canvas.getContext('2d');
+
+        let width = window.innerWidth;
+        let height = window.innerHeight;
+        canvas.width = width;
+        canvas.height = height;
+
+        let trail = [];
+        const MAX_TRAIL = 40;
+        let mouseX = width / 2;
+        let mouseY = height / 2;
+
+        function getColors() {
+            const isDark = document.body.classList.contains('dark');
+            return {
+                primary: isDark ? 'rgba(99, 102, 241, ' : 'rgba(99, 102, 241, ',
+                secondary: isDark ? 'rgba(34, 211, 238, ' : 'rgba(34, 211, 238, ',
+            };
+        }
+
+        window.addEventListener('resize', () => {
+            width = window.innerWidth;
+            height = window.innerHeight;
+            canvas.width = width;
+            canvas.height = height;
+        });
+
+        document.addEventListener('mousemove', (e) => {
+            mouseX = e.clientX;
+            mouseY = e.clientY;
+        });
+
+        function drawTrail() {
+            const colors = getColors();
+
+            trail.push({ x: mouseX, y: mouseY, life: 1.0 });
+            if (trail.length > MAX_TRAIL) trail.shift();
+
+            for (let i = 0; i < trail.length; i++) {
+                trail[i].life -= 0.018;
+                if (trail[i].life < 0) trail[i].life = 0;
+            }
+            trail = trail.filter(p => p.life > 0);
+
+            ctx.clearRect(0, 0, width, height);
+
+            const grad = ctx.createRadialGradient(mouseX, mouseY, 0, mouseX, mouseY, 200);
+            grad.addColorStop(0, colors.primary + '0.10)');
+            grad.addColorStop(0.5, colors.secondary + '0.05)');
+            grad.addColorStop(1, colors.primary + '0)');
+            ctx.fillStyle = grad;
+            ctx.beginPath();
+            ctx.arc(mouseX, mouseY, 200, 0, Math.PI * 2);
+            ctx.fill();
+
+            for (let i = 0; i < trail.length; i++) {
+                const p = trail[i];
+                const size = 4 + (p.life * 35);
+                const opacity = p.life * 0.3;
+
+                const g = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, size);
+                g.addColorStop(0, colors.secondary + (opacity * 0.5) + ')');
+                g.addColorStop(0.6, colors.primary + (opacity * 0.2) + ')');
+                g.addColorStop(1, colors.primary + '0)');
+                ctx.fillStyle = g;
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, size, 0, Math.PI * 2);
+                ctx.fill();
+
+                if (i > 0) {
+                    const prev = trail[i - 1];
+                    ctx.beginPath();
+                    ctx.moveTo(prev.x, prev.y);
+                    ctx.lineTo(p.x, p.y);
+                    ctx.strokeStyle = colors.primary + (p.life * 0.06) + ')';
+                    ctx.lineWidth = 1.5 + p.life * 3;
+                    ctx.stroke();
+                }
+            }
+const coreGrad = ctx.createRadialGradient(mouseX, mouseY, 0, mouseX, mouseY, 15);
+            coreGrad.addColorStop(0, 'rgba(255,255,255,0.06)');
+            coreGrad.addColorStop(0.5, colors.primary + '0.05)');
+            coreGrad.addColorStop(1, colors.primary + '0)');
+            ctx.fillStyle = coreGrad;
+            ctx.beginPath();
+            ctx.arc(mouseX, mouseY, 15, 0, Math.PI * 2);
+            ctx.fill();
+
+            requestAnimationFrame(drawTrail);
+        }
+
+        drawTrail();
+
+        // ==============================================
+        //  اسکرول انیمیشن
+        // ==============================================
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('show');
+                }
+            });
+        }, { threshold: 0.15 });
+        document.querySelectorAll('.fade').forEach(el => observer.observe(el));
+
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                const href = this.getAttribute('href');
+                if (href === '#') return;
+                e.preventDefault();
+                const target = document.querySelector(href);
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
+    </script>
+
+</body>
+</html>
