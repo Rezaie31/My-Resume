@@ -84,7 +84,8 @@
             --muted: #94a3b8;
             --shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
         }
-/* ===== NAV ===== */
+
+        /* ===== NAV ===== */
         nav {
             position: fixed;
             top: 0;
@@ -164,7 +165,145 @@
             margin: 0 auto;
             padding: 120px 24px 60px;
         }
-/* ===== PROJECTS ===== */
+
+        /* ===== HERO ===== */
+        .hero {
+            text-align: center;
+            padding: 80px 20px 60px;
+            position: relative;
+        }
+        .hero .badge {
+            display: inline-block;
+            padding: 6px 18px;
+            border-radius: 30px;
+            background: rgba(99, 102, 241, 0.15);
+            border: 1px solid rgba(99, 102, 241, 0.3);
+            font-size: 13px;
+            margin-bottom: 20px;
+        }
+        .hero h1 {
+            font-size: 64px;
+            font-weight: 800;
+            line-height: 1.1;
+            background: linear-gradient(135deg, var(--accent), var(--accent2), #a78bfa);
+            background-size: 300% 300%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: gradientShift 6s ease infinite;
+        }
+        @keyframes gradientShift {
+            0%,
+            100% {
+                background-position: 0% 50%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
+        }
+        .hero p {
+            font-size: 20px;
+            color: var(--muted);
+            margin-top: 16px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .hero .btn-group {
+            margin-top: 32px;
+            display: flex;
+            gap: 16px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        .btn {
+            display: inline-block;
+            padding: 14px 32px;
+            border-radius: 50px;
+            font-weight: 600;
+            transition: all 0.3s;
+            border: none;
+            cursor: pointer;
+            font-size: 15px;
+        }
+        .btn-primary {
+            background: linear-gradient(135deg, var(--accent), var(--accent2));
+            color: #fff;
+            box-shadow: 0 8px 24px rgba(99, 102, 241, 0.3);
+        }
+        .btn-primary:hover {
+            transform: translateY(-4px) scale(1.02);
+            box-shadow: 0 12px 32px rgba(99, 102, 241, 0.5);
+        }
+        .btn-outline {
+            background: transparent;
+            border: 2px solid var(--accent);
+            color: var(--text);
+        }
+        .btn-outline:hover {
+            background: var(--accent);
+            color: #fff;
+            transform: translateY(-4px);
+        }
+
+        /* ===== SECTION ===== */
+        section {
+            margin-top: 100px;
+        }
+        .section-title {
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 24px;
+            position: relative;
+            display: inline-block;
+        }
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -6px;
+            left: 0;
+            width: 50px;
+            height: 4px;
+            background: linear-gradient(90deg, var(--accent), var(--accent2));
+            border-radius: 4px;
+        }
+
+        /* ===== CARD ===== */
+        .card {
+            background: var(--card);
+            padding: 28px 32px;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            transition: var(--transition);
+        }
+        .card:hover {
+            transform: translateY(-6px);
+            border-color: rgba(99, 102, 241, 0.2);
+        }
+
+        /* ===== SKILLS ===== */
+        .skills-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            justify-content: center;
+        }
+        .skill-tag {
+            padding: 10px 20px;
+            border-radius: 50px;
+            background: rgba(99, 102, 241, 0.1);
+            border: 1px solid rgba(99, 102, 241, 0.2);
+            font-size: 14px;
+            font-weight: 500;
+            transition: 0.3s;
+        }
+        .skill-tag:hover {
+            background: var(--accent);
+            color: #fff;
+            transform: scale(1.05);
+        }
+
+        /* ===== PROJECTS ===== */
         .projects-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -301,143 +440,8 @@
 
     <!-- ===== CONTAINER ===== -->
     <div class="container">
-/* ===== HERO ===== */
-        .hero {
-            text-align: center;
-            padding: 80px 20px 60px;
-            position: relative;
-        }
-        .hero .badge {
-            display: inline-block;
-            padding: 6px 18px;
-            border-radius: 30px;
-            background: rgba(99, 102, 241, 0.15);
-            border: 1px solid rgba(99, 102, 241, 0.3);
-            font-size: 13px;
-            margin-bottom: 20px;
-        }
-        .hero h1 {
-            font-size: 64px;
-            font-weight: 800;
-            line-height: 1.1;
-            background: linear-gradient(135deg, var(--accent), var(--accent2), #a78bfa);
-            background-size: 300% 300%;
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            animation: gradientShift 6s ease infinite;
-        }
-        @keyframes gradientShift {
-            0%,
-            100% {
-                background-position: 0% 50%;
-            }
-            50% {
-                background-position: 100% 50%;
-            }
-        }
-        .hero p {
-            font-size: 20px;
-            color: var(--muted);
-            margin-top: 16px;
-            max-width: 600px;
-            margin-left: auto;
-            margin-right: auto;
-        }
-        .hero .btn-group {
-            margin-top: 32px;
-            display: flex;
-            gap: 16px;
-            justify-content: center;
-            flex-wrap: wrap;
-        }
-        .btn {
-            display: inline-block;
-            padding: 14px 32px;
-            border-radius: 50px;
-            font-weight: 600;
-            transition: all 0.3s;
-            border: none;
-            cursor: pointer;
-            font-size: 15px;
-        }
-        .btn-primary {
-            background: linear-gradient(135deg, var(--accent), var(--accent2));
-            color: #fff;
-            box-shadow: 0 8px 24px rgba(99, 102, 241, 0.3);
-        }
-        .btn-primary:hover {
-            transform: translateY(-4px) scale(1.02);
-            box-shadow: 0 12px 32px rgba(99, 102, 241, 0.5);
-        }
-        .btn-outline {
-            background: transparent;
-            border: 2px solid var(--accent);
-            color: var(--text);
-        }
-        .btn-outline:hover {
-            background: var(--accent);
-            color: #fff;
-            transform: translateY(-4px);
-        }
 
-        /* ===== SECTION ===== */
-        section {
-            margin-top: 100px;
-        }
-        .section-title {
-            font-size: 28px;
-            font-weight: 700;
-            margin-bottom: 24px;
-            position: relative;
-            display: inline-block;
-        }
-        .section-title::after {
-            content: '';
-            position: absolute;
-            bottom: -6px;
-            left: 0;
-            width: 50px;
-            height: 4px;
-            background: linear-gradient(90deg, var(--accent), var(--accent2));
-            border-radius: 4px;
-        }
-
-        /* ===== CARD ===== */
-        .card {
-            background: var(--card);
-            padding: 28px 32px;
-            border-radius: var(--radius);
-            box-shadow: var(--shadow);
-            border: 1px solid rgba(255, 255, 255, 0.04);
-            transition: var(--transition);
-        }
-        .card:hover {
-            transform: translateY(-6px);
-            border-color: rgba(99, 102, 241, 0.2);
-        }
-
-        /* ===== SKILLS ===== */
-        .skills-grid {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 12px;
-            justify-content: center;
-        }
-        .skill-tag {
-            padding: 10px 20px;
-            border-radius: 50px;
-            background: rgba(99, 102, 241, 0.1);
-            border: 1px solid rgba(99, 102, 241, 0.2);
-            font-size: 14px;
-            font-weight: 500;
-            transition: 0.3s;
-        }
-        .skill-tag:hover {
-            background: var(--accent);
-            color: #fff;
-            transform: scale(1.05);
-        }
-<!-- HERO -->
+        <!-- ===== HERO ===== -->
         <section class="hero fade">
             <div class="badge" data-key="hero.badge">🚀 Open to Opportunities</div>
             <h1 data-key="hero.title">Front-End Developer</h1>
@@ -448,7 +452,7 @@
             </div>
         </section>
 
-        <!-- ABOUT -->
+        <!-- ===== ABOUT ===== -->
         <section id="about" class="fade">
             <h2 class="section-title" data-key="about.title">About Me</h2>
             <div class="card">
@@ -456,7 +460,7 @@
             </div>
         </section>
 
-        <!-- SKILLS -->
+        <!-- ===== SKILLS ===== -->
         <section id="skills" class="fade">
             <h2 class="section-title" data-key="skills.title">Skills</h2>
             <div class="card">
@@ -473,7 +477,7 @@
             </div>
         </section>
 
-        <!-- PROJECTS -->
+        <!-- ===== PROJECTS ===== -->
         <section id="projects" class="fade">
             <h2 class="section-title" data-key="projects.title">Projects</h2>
             <div class="projects-grid">
@@ -495,7 +499,7 @@
             </div>
         </section>
 
-        <!-- CONTACT -->
+        <!-- ===== CONTACT ===== -->
         <section id="contact" class="fade">
             <h2 class="section-title" data-key="contact.title">Contact</h2>
             <div class="card">
@@ -506,13 +510,14 @@
             </div>
         </section>
 
-        <!-- FOOTER -->
+        <!-- ===== FOOTER ===== -->
         <footer>
             <span data-key="footer.text">© 2026 Hani — All rights reserved</span>
         </footer>
 
     </div>
-<script>
+
+    <script>
         // ==============================================
         //  ترجمه کامل
         // ==============================================
@@ -594,7 +599,8 @@
             }
             translatePage(currentLang);
         }
-function translatePage(lang) {
+
+        function translatePage(lang) {
             const elements = document.querySelectorAll('[data-key]');
             elements.forEach(el => {
                 const key = el.getAttribute('data-key');
@@ -696,7 +702,8 @@ function translatePage(lang) {
                     ctx.stroke();
                 }
             }
-const coreGrad = ctx.createRadialGradient(mouseX, mouseY, 0, mouseX, mouseY, 15);
+
+            const coreGrad = ctx.createRadialGradient(mouseX, mouseY, 0, mouseX, mouseY, 15);
             coreGrad.addColorStop(0, 'rgba(255,255,255,0.06)');
             coreGrad.addColorStop(0.5, colors.primary + '0.05)');
             coreGrad.addColorStop(1, colors.primary + '0)');
